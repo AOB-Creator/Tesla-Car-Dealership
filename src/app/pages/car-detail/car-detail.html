@@ -1,0 +1,117 @@
+@if (car(); as car) {
+  <div class="configurator">
+    <div class="stage">
+      <app-car-illustration
+        [body]="car.body"
+        [color]="paint()?.hex ?? '#ccc'"
+        [label]="car.name + ' in ' + paint()?.name"
+      />
+      <div class="specs">
+        <div>
+          <strong>{{ trim()?.range }} mi</strong>
+          <span>Range (EPA est.)</span>
+        </div>
+        <div>
+          <strong>{{ trim()?.topSpeed }} mph</strong>
+          <span>Top speed</span>
+        </div>
+        <div>
+          <strong>{{ trim()?.acceleration }}s</strong>
+          <span>0-60 mph</span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="panel">
+      <h1>{{ car.name }}</h1>
+      <p class="description">{{ car.description }}</p>
+
+      <section>
+        <h2>Trim</h2>
+        <div class="options">
+          @for (t of car.trims; track t.name; let i = $index) {
+            <button
+              type="button"
+              class="option"
+              [class.selected]="trimIndex() === i"
+              [attr.aria-pressed]="trimIndex() === i"
+              (click)="trimIndex.set(i)"
+            >
+              <span>{{ t.name }}</span>
+              <span>{{ t.price | currency: 'USD' : 'symbol' : '1.0-0' }}</span>
+            </button>
+          }
+        </div>
+      </section>
+
+      <section>
+        <h2>Paint</h2>
+        <div class="swatches">
+          @for (p of car.paints; track p.name; let i = $index) {
+            <button
+              type="button"
+              class="swatch"
+              [class.selected]="paintIndex() === i"
+              [style.background]="p.hex"
+              [attr.aria-pressed]="paintIndex() === i"
+              [attr.aria-label]="p.name"
+              [title]="p.name"
+              (click)="paintIndex.set(i)"
+            ></button>
+          }
+        </div>
+        <p class="option-note">
+          {{ paint()?.name }} &middot;
+          {{
+            paint()?.price ? (paint()!.price | currency: 'USD' : 'symbol' : '1.0-0') : 'Included'
+          }}
+        </p>
+      </section>
+
+      <section>
+        <h2>Wheels</h2>
+        <div class="options">
+          @for (w of car.wheels; track w.name; let i = $index) {
+            <button
+              type="button"
+              class="option"
+              [class.selected]="wheelIndex() === i"
+              [attr.aria-pressed]="wheelIndex() === i"
+              (click)="wheelIndex.set(i)"
+            >
+              <span>{{ w.size }}" {{ w.name }}</span>
+              <span>{{
+                w.price ? (w.price | currency: 'USD' : 'symbol' : '1.0-0') : 'Included'
+              }}</span>
+            </button>
+          }
+        </div>
+      </section>
+
+      <section class="summary">
+        <div class="row">
+          <span>Destination fee</span>
+          <span>{{ destinationFee | currency: 'USD' : 'symbol' : '1.0-0' }}</span>
+        </div>
+        <div class="row total">
+          <span>Total</span>
+          <span>{{ total() | currency: 'USD' : 'symbol' : '1.0-0' }}</span>
+        </div>
+        <p class="option-note">
+          Est. {{ monthly() | currency: 'USD' : 'symbol' : '1.0-0' }}/mo &middot;
+          {{ termMonths }} months &middot;
+          {{ downPayment | currency: 'USD' : 'symbol' : '1.0-0' }} down
+        </p>
+        <a class="btn btn-primary" routerLink="/test-drive" [queryParams]="{ model: car.id }">
+          Schedule a Test Drive
+        </a>
+        <a class="btn btn-secondary" routerLink="/inventory">View In-Stock {{ car.name }}</a>
+      </section>
+    </aside>
+  </div>
+} @else {
+  <div class="container missing">
+    <h1>Model not found</h1>
+    <a class="btn btn-primary" routerLink="/">Back to home</a>
+  </div>
+}

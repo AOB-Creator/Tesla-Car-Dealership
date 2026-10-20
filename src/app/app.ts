@@ -1,12 +1,23 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { CARS } from './data/cars';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('tesla-car-dealership');
+  protected readonly cars = CARS;
+  protected readonly menuOpen = signal(false);
+  protected readonly year = new Date().getFullYear();
+
+  protected toggleMenu(): void {
+    this.menuOpen.update((open) => !open);
+  }
+
+  protected closeMenu(): void {
+    this.menuOpen.set(false);
+  }
 }

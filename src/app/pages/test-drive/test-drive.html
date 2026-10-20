@@ -1,0 +1,99 @@
+<div class="container test-drive">
+  @if (submitted(); as request) {
+    <section class="confirmation" role="status">
+      <h1>You're booked, {{ request.firstName }}!</h1>
+      <p>
+        Your {{ carName(request.model) }} test drive is requested for {{ request.date }} at
+        {{ request.time }}. We'll confirm by email at <strong>{{ request.email }}</strong
+        >.
+      </p>
+      <div class="actions">
+        <button type="button" class="btn btn-secondary" (click)="bookAnother()">
+          Book another
+        </button>
+        <a class="btn btn-primary" routerLink="/inventory">Browse inventory</a>
+      </div>
+    </section>
+  } @else {
+    <h1>Schedule a Test Drive</h1>
+    <p class="lede">Pick a model and a time. A product specialist will meet you at the showroom.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field full">
+        <label for="td-model">Model</label>
+        <select id="td-model" formControlName="model">
+          <option value="" disabled>Select a model</option>
+          @for (car of cars; track car.id) {
+            <option [value]="car.id">{{ car.name }}</option>
+          }
+        </select>
+        @if (invalid('model')) {
+          <span class="error">Choose a model.</span>
+        }
+        @if (form.controls.vin.value) {
+          <span class="hint">Vehicle VIN {{ form.controls.vin.value }}</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="td-date">Date</label>
+        <input id="td-date" type="date" formControlName="date" [min]="minDate" />
+        @if (invalid('date')) {
+          <span class="error">Choose a date.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="td-time">Time</label>
+        <select id="td-time" formControlName="time">
+          <option value="" disabled>Select a time</option>
+          @for (time of times; track time) {
+            <option [value]="time">{{ time }}</option>
+          }
+        </select>
+        @if (invalid('time')) {
+          <span class="error">Choose a time.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="td-first">First name</label>
+        <input id="td-first" formControlName="firstName" autocomplete="given-name" />
+        @if (invalid('firstName')) {
+          <span class="error">Enter your first name.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="td-last">Last name</label>
+        <input id="td-last" formControlName="lastName" autocomplete="family-name" />
+        @if (invalid('lastName')) {
+          <span class="error">Enter your last name.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="td-email">Email</label>
+        <input id="td-email" type="email" formControlName="email" autocomplete="email" />
+        @if (invalid('email')) {
+          <span class="error">Enter a valid email address.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="td-phone">Phone</label>
+        <input id="td-phone" type="tel" formControlName="phone" autocomplete="tel" />
+        @if (invalid('phone')) {
+          <span class="error">Enter a valid phone number.</span>
+        }
+      </div>
+
+      <div class="field full">
+        <label for="td-notes">Notes (optional)</label>
+        <textarea id="td-notes" formControlName="notes"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary full">Request Test Drive</button>
+    </form>
+  }
+</div>
