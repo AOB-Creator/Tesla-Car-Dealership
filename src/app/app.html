@@ -1,24 +1,30 @@
 <header class="header">
   <div class="header-inner">
-    <a routerLink="/" class="logo" (click)="closeMenu()">VOLT<span>MOTORS</span></a>
+    <div class="left">
+      <a routerLink="/" class="mark" aria-label="Volt Motors home" (click)="closeMenu()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3L6 13.5h5.5L10 21l8-11h-5.5L13 3z" /></svg>
+      </a>
+      <nav class="nav-models" aria-label="Models">
+        @for (car of cars; track car.id) {
+          <a [routerLink]="['/models', car.id]" routerLinkActive="active">{{ car.name }}</a>
+        }
+      </nav>
+    </div>
 
-    <nav class="nav-models" aria-label="Models">
-      @for (car of cars; track car.id) {
-        <a [routerLink]="['/models', car.id]" routerLinkActive="active">{{ car.name }}</a>
-      }
-    </nav>
+    <a routerLink="/" class="logo" (click)="closeMenu()">VOLT<span>MOTORS</span></a>
 
     <nav class="nav-actions" aria-label="Dealership">
       <a routerLink="/inventory" routerLinkActive="active">Inventory</a>
-      <a routerLink="/test-drive" routerLinkActive="active">Test Drive</a>
+      <a routerLink="/test-drive" class="btn">Book a test drive <app-icon name="arrow" [size]="16" /></a>
       <button
         type="button"
         class="menu-toggle"
         [attr.aria-expanded]="menuOpen()"
         aria-controls="mobile-menu"
+        aria-label="Menu"
         (click)="toggleMenu()"
       >
-        Menu
+        <app-icon [name]="menuOpen() ? 'close' : 'menu'" [size]="22" />
       </button>
     </nav>
   </div>
@@ -29,7 +35,7 @@
         <a [routerLink]="['/models', car.id]" (click)="closeMenu()">{{ car.name }}</a>
       }
       <a routerLink="/inventory" (click)="closeMenu()">Inventory</a>
-      <a routerLink="/test-drive" (click)="closeMenu()">Test Drive</a>
+      <a routerLink="/test-drive" class="btn" (click)="closeMenu()">Book a test drive <app-icon name="arrow" [size]="16" /></a>
     </nav>
   }
 </header>
@@ -39,10 +45,43 @@
 </main>
 
 <footer class="footer">
-  <div class="container footer-inner">
-    <span>Volt Motors &copy; {{ year }}</span>
-    <a routerLink="/inventory">Inventory</a>
-    <a routerLink="/test-drive">Schedule a Test Drive</a>
-    <span>Independent dealership, not affiliated with Tesla, Inc.</span>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <p class="footer-logo">VOLT MOTORS</p>
+        <p class="footer-tag">Electric driving, without the guesswork.</p>
+      </div>
+      <a routerLink="/inventory" class="btn ghost">Browse inventory <app-icon name="arrow" [size]="16" /></a>
+    </div>
+    <div class="footer-divider"><span></span></div>
+    <div class="footer-cols">
+      <div>
+        <p class="footer-title">Models</p>
+        <ul>
+          @for (car of cars; track car.id) {
+            <li><a [routerLink]="['/models', car.id]">{{ car.name }}</a></li>
+          }
+        </ul>
+      </div>
+      <div>
+        <p class="footer-title">Shop</p>
+        <ul>
+          <li><a routerLink="/inventory">Inventory</a></li>
+          <li><a routerLink="/test-drive">Schedule a test drive</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-title">Explore</p>
+        <ul>
+          <li><a routerLink="/" fragment="charging">Charging</a></li>
+          <li><a routerLink="/" fragment="performance">Performance</a></li>
+          <li><a routerLink="/" fragment="ownership">Ownership</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <span>Volt Motors &copy; {{ year }}</span>
+      <span>Independent dealership, not affiliated with Tesla, Inc.</span>
+    </div>
   </div>
 </footer>
