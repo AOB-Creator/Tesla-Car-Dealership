@@ -1,23 +1,70 @@
 .configurator {
   display: grid;
   grid-template-columns: 1fr 400px;
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 76px);
 }
 
 .stage {
   position: sticky;
-  top: 56px;
-  height: calc(100vh - 56px);
+  top: 76px;
+  height: calc(100vh - 76px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 32px;
-  padding: 32px;
+  gap: 28px;
+  padding: 24px;
   background: var(--bg-muted);
+}
 
-  app-car-illustration {
-    width: min(800px, 100%);
-    margin: 0 auto;
+.shot {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  max-height: 640px;
+  margin: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #dfe2e6;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: fade 0.45s ease;
+  }
+}
+
+.shot-note {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  font-size: 13px;
+  font-weight: 500;
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .muted {
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
   }
 }
 
@@ -156,5 +203,11 @@
   .stage {
     position: static;
     height: auto;
+    padding: 16px;
+  }
+
+  .shot {
+    flex: none;
+    aspect-ratio: 3 / 2;
   }
 }

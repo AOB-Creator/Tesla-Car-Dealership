@@ -1,6 +1,7 @@
 // Copy for the home page. Figures are derived from the dealership data in cars.ts,
 // so the home page always agrees with the configurator and inventory pages.
 import { CARS, startingPrice } from './cars';
+import { photo } from './car-photos';
 import { monthlyPayment } from '../pages/car-detail/car-detail';
 
 const allTrims = CARS.flatMap((car) => car.trims);
@@ -71,25 +72,6 @@ export const JOURNEYS = [
   { n: '03', title: 'Ready to buy', text: 'Know what you want. Book a drive, pick a car from stock and get it this week.', link: '/test-drive', cta: 'Book a test drive' },
 ];
 
-/**
- * Photography from Unsplash (https://unsplash.com/license): free to use commercially,
- * no permission needed. Files are self-hosted in public/images. Credits are kept here
- * and listed in IMAGE_CREDITS.md.
- */
-export interface Photo {
-  src: string;
-  alt: string;
-  credit: string;
-  url: string;
-}
-
-const photo = (file: string, alt: string, credit: string, id: string): Photo => ({
-  src: 'images/' + file + '.webp',
-  alt,
-  credit,
-  url: 'https://unsplash.com/photos/' + id,
-});
-
 export const PHOTOS = {
   hero: photo('hero-model-3', 'White Model 3 in side profile', 'Somalia Veteran', 'D8M-768ksJg'),
   charging: photo('charging', 'White electric car plugged in at a charging post', 'Ratio EV Charging', 'imgZcGytqKM'),
@@ -97,13 +79,4 @@ export const PHOTOS = {
   interior: photo('interior', 'Minimal cabin with a central touchscreen', 'Bram Van Oost', '4xM5cytsdMo'),
   road: photo('road-dusk', 'Black Model S driving at dusk', 'Jp Valery', 'Qm_n6aoYzDs'),
   cta: photo('cta-front', 'White Model 3 seen from the front', 'Charlie Deets', 'D1W5QenBzlU'),
-};
-
-/** One real photo per model, keyed by the car id in cars.ts. */
-export const MODEL_PHOTOS: Record<string, Photo> = {
-  'model-s': photo('model-s', 'White Model S parked on grass', 'Matt Henry', '1nVbppFJl-s'),
-  'model-3': photo('model-3', 'White Model 3 on a city road', 'Robin van Geenen', 'zSeZzS1bCq8'),
-  'model-x': photo('model-x', 'Black Model X with its falcon wing doors open', 'Robbie', 'Qy2GJ5Bh_gQ'),
-  'model-y': photo('model-y', 'Black Model Y parked on a street', 'Mateusz Zatorski', 'Fcknu5cpP3Y'),
-  cybertruck: photo('cybertruck', 'Stainless steel Cybertruck in profile', 'Sven Piper', 'mRvdq1PleQA'),
 };

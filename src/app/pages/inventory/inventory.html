@@ -57,11 +57,9 @@
 
     @for (vehicle of results(); track vehicle.vin) {
       <article class="card">
-        <app-car-illustration
-          [body]="carBody(vehicle)"
-          [color]="paintHex(vehicle)"
-          [label]="carName(vehicle) + ' in ' + vehicle.paint"
-        />
+        @if (photoFor(vehicle); as p) {
+          <img class="card-photo" [src]="p.src" [alt]="p.alt" [style.object-position]="p.focus" width="1400" height="933" loading="lazy" />
+        }
         <div class="card-body">
           <div class="card-title">
             <h2>{{ vehicle.year }} {{ carName(vehicle) }}</h2>

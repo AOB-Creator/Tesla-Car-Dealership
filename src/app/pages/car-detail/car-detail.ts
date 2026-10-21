@@ -1,7 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CarIllustration } from '../../components/car-illustration/car-illustration';
+import { carPhoto } from '../../data/car-photos';
 import { findCar } from '../../data/cars';
 
 export const DESTINATION_FEE = 1390;
@@ -23,7 +23,7 @@ export function monthlyPayment(
 
 @Component({
   selector: 'app-car-detail',
-  imports: [RouterLink, CurrencyPipe, CarIllustration],
+  imports: [RouterLink, CurrencyPipe],
   templateUrl: './car-detail.html',
   styleUrl: './car-detail.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,6 +43,12 @@ export class CarDetail {
   protected readonly trim = computed(() => this.car()?.trims[this.trimIndex()]);
   protected readonly paint = computed(() => this.car()?.paints[this.paintIndex()]);
   protected readonly wheel = computed(() => this.car()?.wheels[this.wheelIndex()]);
+
+  /** Real photo in the selected paint, or the closest stand-in when none exists. */
+  protected readonly shot = computed(() => {
+    const car = this.car();
+    return car ? carPhoto(car.id, this.paint()?.name) : undefined;
+  });
 
   protected readonly total = computed(
     () =>

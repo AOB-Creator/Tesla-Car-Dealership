@@ -2,7 +2,7 @@ import { CurrencyPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CARS, startingPrice } from '../../../data/cars';
-import { MODEL_PHOTOS } from '../../../data/landing';
+import { carPhoto } from '../../../data/car-photos';
 import { Icon } from '../../../components/icon';
 
 /** The dealership's model range, in the landing-page style. */
@@ -23,7 +23,9 @@ import { Icon } from '../../../components/icon';
         @for (car of cars; track car.id) {
           <li class="card">
             <a [routerLink]="['/models', car.id]" class="art" [attr.aria-label]="'Configure ' + car.name">
-              <img [src]="photos[car.id].src" [alt]="photos[car.id].alt" width="900" height="600" loading="lazy" />
+              @if (photoFor(car.id); as p) {
+                <img [src]="p.src" [alt]="p.alt" [style.object-position]="p.focus" width="1400" height="933" loading="lazy" />
+              }
             </a>
             <div class="info">
               <h3>{{ car.name }}</h3>
@@ -70,5 +72,5 @@ import { Icon } from '../../../components/icon';
 export class Lineup {
   cars = CARS;
   startingPrice = startingPrice;
-  photos = MODEL_PHOTOS;
+  photoFor = (id: string) => carPhoto(id)?.photo;
 }

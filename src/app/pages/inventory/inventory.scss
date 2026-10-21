@@ -83,6 +83,16 @@
   box-shadow: var(--shadow);
 }
 
+.card-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 14px;
+  background: var(--bg-muted);
+}
+
 .card-title {
   display: flex;
   align-items: center;
