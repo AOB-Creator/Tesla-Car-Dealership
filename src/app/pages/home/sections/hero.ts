@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BRAND, FEATURED, HERO_STATS } from '../../../data/landing';
+import { BRAND, FEATURED, HERO_STATS, PHOTOS } from '../../../data/landing';
 import { Icon } from '../../../components/icon';
-import { CarArt } from '../../../components/car-art';
 
 @Component({
   selector: 'app-hero',
-  imports: [Icon, CarArt, RouterLink],
+  imports: [Icon, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="hero">
@@ -17,7 +16,7 @@ import { CarArt } from '../../../components/car-art';
         <a routerLink="/test-drive" class="btn">Book a test drive <app-icon name="arrow" [size]="16" /></a>
         <a [routerLink]="['/models', featured.id]" class="link-arrow">Explore {{ featured.name }} <app-icon name="arrow" [size]="14" /></a>
       </div>
-      <app-car-art class="car" view="side" />
+      <figure class="car"><img [src]="photo.src" [alt]="photo.alt" width="2000" height="1333" fetchpriority="high" /></figure>
       <ul class="stats">
         @for (s of stats; track s.label) {
           <li>
@@ -41,7 +40,8 @@ import { CarArt } from '../../../components/car-art';
     .title { font-size: clamp(40px, 4.4vw, 64px); font-weight: 600; letter-spacing: -0.045em; line-height: 1.02; }
     .copy .lead { margin: 26px 0 34px; max-width: 380px; }
     .copy .link-arrow { margin-top: 26px; }
-    .car { position: relative; z-index: 1; align-self: center; margin: 40px -2% 0 -18%; filter: drop-shadow(0 30px 40px rgba(20,25,35,.12)); }
+    .car { position: relative; z-index: 1; margin: 0 var(--gutter) 0 0; border-radius: 28px; overflow: hidden; aspect-ratio: 3 / 2; align-self: center; box-shadow: 0 30px 60px rgba(20,25,35,.12); }
+    .car img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
 
     .stats { grid-column: 1 / -1; position: relative; z-index: 2; list-style: none; margin: 10px auto 0; padding: 0;
              display: grid; grid-template-columns: repeat(3, auto); }
@@ -53,7 +53,7 @@ import { CarArt } from '../../../components/car-art';
     @media (max-width: 1020px) {
       .hero { grid-template-columns: 1fr; min-height: 0; }
       .backdrop { inset: 46% 0 22% 18%; }
-      .car { margin: 24px var(--gutter) 0; }
+      .car { margin: 28px var(--gutter) 0; aspect-ratio: 3 / 2; border-radius: 20px; }
       .stats { width: 100%; margin-top: 24px; padding-inline: var(--gutter); grid-template-columns: repeat(3, 1fr); }
       .stats li { flex-direction: column; text-align: center; gap: 8px; padding: 4px 8px; }
       .stats li > div { display: flex; flex-direction: column-reverse; }
@@ -66,4 +66,5 @@ export class Hero {
   brand = BRAND;
   featured = FEATURED;
   stats = HERO_STATS;
+  photo = PHOTOS.hero;
 }

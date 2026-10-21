@@ -1,13 +1,11 @@
 import { RouterLink } from '@angular/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CHARGING_FEATURES, CHARGING_STATS } from '../../../data/landing';
+import { CHARGING_FEATURES, CHARGING_STATS, PHOTOS } from '../../../data/landing';
 import { Icon } from '../../../components/icon';
-import { CarArt } from '../../../components/car-art';
-import { Landscape } from '../../../components/landscape';
 
 @Component({
   selector: 'app-charging',
-  imports: [RouterLink, Icon, CarArt, Landscape],
+  imports: [RouterLink, Icon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="wrap grid" id="charging">
@@ -27,14 +25,8 @@ import { Landscape } from '../../../components/landscape';
       </div>
 
       <figure class="photo">
-        <div class="scene"><app-landscape tone="light" /></div>
-        <div class="wall">
-          <p class="vertical">Charge<br />at home<br />wake up<br />full</p>
-          <span class="rule"></span>
-          <div class="charger"><span class="screen"></span><span class="glow"></span></div>
-        </div>
-        <app-car-art class="car" view="side" />
-        <svg class="cable" viewBox="0 0 200 120" aria-hidden="true"><path d="M8 40C40 110 140 120 190 70" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round" /></svg>
+        <img [src]="photos.charging.src" [alt]="photos.charging.alt" width="1400" height="935" loading="lazy" />
+        <figcaption class="vertical">Charge<br />at home<br />wake up<br />full<span class="rule"></span></figcaption>
       </figure>
 
       <aside class="side">
@@ -52,7 +44,7 @@ import { Landscape } from '../../../components/landscape';
           <div class="pill">Find charging stops<br />along your route <app-icon name="arrow" [size]="14" /></div>
         </div>
         <div class="card trip">
-          <div class="thumb"><app-landscape tone="light" /></div>
+          <div class="thumb"><img [src]="photos.trip.src" [alt]="photos.trip.alt" width="400" height="600" loading="lazy" /></div>
           <div><h4>Road trips, simplified</h4><p>Plan with confidence. We take care of the charging stops.</p></div>
           <app-icon name="arrow" [size]="14" />
         </div>
@@ -79,16 +71,10 @@ import { Landscape } from '../../../components/landscape';
     .features p { font-size: 13px; color: var(--muted); max-width: 240px; }
 
     .photo { position: relative; margin: 0; border-radius: var(--radius-lg); overflow: hidden; min-height: 520px; background: #dcdfe3; }
-    .scene { position: absolute; inset: 0 48% 30% 0; }
-    .wall { position: absolute; inset: 0 0 0 52%; background: linear-gradient(90deg, #bfc3c8, #d6d9dc 30%, #c9ccd0); }
-    .vertical { position: absolute; top: 12%; left: 14%; font-size: 10px; letter-spacing: .32em; text-transform: uppercase; line-height: 2.1; color: #3c3f44; }
-    .rule { position: absolute; top: 33%; left: 14%; width: 22px; height: 1px; background: #3c3f44; }
-    .charger { position: absolute; left: 52%; bottom: 14%; width: 46px; height: 46%; border-radius: 22px 22px 6px 6px; background: linear-gradient(90deg, #1a1b1d, #3a3c40 60%, #1a1b1d); }
-    .charger .screen { position: absolute; top: 14px; left: 9px; right: 9px; height: 30px; border-radius: 6px; background: #0b0b0c; }
-    .charger .glow { position: absolute; left: 50%; bottom: 18%; width: 3px; height: 26%; margin-left: -1.5px; background: #7fd3ff; box-shadow: 0 0 12px #7fd3ff; border-radius: 2px; }
-    .photo::after { content: ''; position: absolute; inset: 70% 0 0 0; background: linear-gradient(180deg, #d7dadd, #eceef0); }
-    .car { position: absolute; z-index: 2; left: -22%; bottom: 4%; width: 92%; }
-    .cable { position: absolute; z-index: 3; left: 46%; bottom: 10%; width: 22%; }
+    .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% 60%; }
+    .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(200deg, rgba(0,0,0,.45), rgba(0,0,0,0) 45%); }
+    .vertical { position: absolute; z-index: 1; top: 8%; right: 9%; font-size: 10px; letter-spacing: .32em; text-transform: uppercase; line-height: 2.1; color: #fff; }
+    .rule { display: block; margin-top: 18px; width: 22px; height: 1px; background: #fff; }
 
     .side { display: grid; gap: 14px; grid-template-rows: 1.2fr auto auto; }
     .card { background: var(--card); border-radius: 14px; border: 1px solid #eceef1; }
@@ -97,6 +83,7 @@ import { Landscape } from '../../../components/landscape';
     .pill { position: absolute; top: 14px; right: 14px; display: flex; align-items: center; gap: 12px; font-size: 10.5px; line-height: 1.35; background: #fff; padding: 10px 12px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,.06); }
     .trip { display: grid; grid-template-columns: 76px 1fr auto; gap: 12px; align-items: center; padding: 10px; }
     .thumb { position: relative; height: 62px; border-radius: 8px; overflow: hidden; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 80%; display: block; }
     .trip h4 { font-size: 12px; font-weight: 600; }
     .trip p { font-size: 10.5px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
     .list { list-style: none; margin: 0; padding: 4px 14px; }
@@ -122,4 +109,5 @@ import { Landscape } from '../../../components/landscape';
 export class Charging {
   features = CHARGING_FEATURES;
   stats = CHARGING_STATS;
+  photos = PHOTOS;
 }

@@ -9,7 +9,7 @@ An Angular 21 storefront for an independent electric-vehicle dealership ("Volt M
 - **Inventory** (`/inventory`): filter in-stock vehicles by model, condition and max price, and sort them
 - **Test drive booking** (`/test-drive`): a validated reactive form, pre-filled from model and inventory links
 - Responsive layout with a mobile menu; one light visual system (Manrope, black / off-white / red accent) defined in `src/styles.scss`
-- Vector car illustrations tinted with the selected paint (no external image assets)
+- Real photography on the home page (Unsplash, self-hosted in `public/images/`, credits in `IMAGE_CREDITS.md`); the configurator and inventory keep vector illustrations tinted with the selected paint
 
 Vehicle and inventory data lives in `src/app/data/` and can be swapped for an API later.
 

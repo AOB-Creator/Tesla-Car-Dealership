@@ -1,12 +1,11 @@
 import { RouterLink } from '@angular/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BRAND } from '../../../data/landing';
+import { BRAND, PHOTOS } from '../../../data/landing';
 import { Icon } from '../../../components/icon';
-import { CarArt } from '../../../components/car-art';
 
 @Component({
   selector: 'app-cta',
-  imports: [RouterLink, Icon, CarArt],
+  imports: [RouterLink, Icon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="wrap" id="book">
@@ -16,7 +15,7 @@ import { CarArt } from '../../../components/car-art';
       <a routerLink="/test-drive" class="btn">Book a test drive <app-icon name="arrow" [size]="16" /></a>
       <div class="stage">
         <p class="side l">Quieter<br />streets for<br />a cleaner<br />tomorrow.<span></span></p>
-        <app-car-art class="car" view="rear" />
+        <figure class="car"><img [src]="photo.src" [alt]="photo.alt" width="1800" height="1200" loading="lazy" /></figure>
         <p class="side r">Efficient<br />motion.<br />Lasting<br />value.<span></span></p>
       </div>
       <div class="base"><span>{{ brand.short }}</span><span>Cleaner miles start here</span></div>
@@ -28,8 +27,9 @@ import { CarArt } from '../../../components/car-art';
     .wordmark { font-size: 16px; letter-spacing: .42em; padding-left: .42em; }
     h2 { margin-top: 44px; font-size: clamp(40px, 5.2vw, 72px); font-weight: 500; letter-spacing: -.04em; line-height: 1.02; }
     .lead { margin: 14px 0 22px; font-size: 15px; }
-    .stage { width: 100%; display: grid; grid-template-columns: 1fr minmax(0, 560px) 1fr; align-items: center; margin-top: 30px; }
-    .car { width: 100%; }
+    .stage { width: 100%; display: grid; grid-template-columns: 1fr minmax(0, 820px) 1fr; gap: 24px; align-items: center; margin-top: 40px; }
+    .car { margin: 0; width: 100%; aspect-ratio: 16 / 10; border-radius: 24px; overflow: hidden; box-shadow: 0 30px 60px rgba(20,25,35,.14); }
+    .car img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; display: block; }
     .side { font-size: 9.5px; letter-spacing: .24em; text-transform: uppercase; line-height: 2; color: var(--ink-2); text-align: left; justify-self: start; padding-left: 4%; }
     .side.r { justify-self: end; padding: 0 4% 0 0; }
     .side span { display: block; width: 28px; height: 1px; background: var(--muted); margin-top: 18px; }
@@ -42,4 +42,5 @@ import { CarArt } from '../../../components/car-art';
 })
 export class Cta {
   brand = BRAND;
+  photo = PHOTOS.cta;
 }
