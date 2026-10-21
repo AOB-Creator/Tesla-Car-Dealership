@@ -1,0 +1,98 @@
+<div class="container inventory">
+  <aside class="filters" aria-label="Filters">
+    <h1>Inventory</h1>
+
+    <div class="field">
+      <label for="model">Model</label>
+      <select id="model" [value]="model()" (change)="model.set($any($event.target).value)">
+        <option value="all">All models</option>
+        @for (car of cars; track car.id) {
+          <option [value]="car.id">{{ car.name }}</option>
+        }
+      </select>
+    </div>
+
+    <fieldset class="segmented">
+      <legend>Condition</legend>
+      @for (option of ['all', 'new', 'used']; track option) {
+        <button
+          type="button"
+          [class.active]="condition() === option"
+          [attr.aria-pressed]="condition() === option"
+          (click)="condition.set($any(option))"
+        >
+          {{ option === 'all' ? 'All' : option === 'new' ? 'New' : 'Used' }}
+        </button>
+      }
+    </fieldset>
+
+    <div class="field">
+      <label for="price">Max price: {{ maxPrice() | currency: 'USD' : 'symbol' : '1.0-0' }}</label>
+      <input
+        id="price"
+        type="range"
+        min="30000"
+        [max]="maxPriceLimit"
+        step="5000"
+        [value]="maxPrice()"
+        (input)="maxPrice.set(+$any($event.target).value)"
+      />
+    </div>
+
+    <div class="field">
+      <label for="sort">Sort by</label>
+      <select id="sort" [value]="sort()" (change)="sort.set($any($event.target).value)">
+        <option value="price-asc">Price: low to high</option>
+        <option value="price-desc">Price: high to low</option>
+        <option value="mileage">Lowest mileage</option>
+        <option value="year">Newest</option>
+      </select>
+    </div>
+
+    <button type="button" class="link" (click)="reset()">Reset filters</button>
+  </aside>
+
+  <section class="results" aria-live="polite">
+    <p class="count">{{ results().length }} vehicles</p>
+
+    @for (vehicle of results(); track vehicle.vin) {
+      <article class="card">
+        <app-car-illustration
+          [body]="carBody(vehicle)"
+          [color]="paintHex(vehicle)"
+          [label]="carName(vehicle) + ' in ' + vehicle.paint"
+        />
+        <div class="card-body">
+          <div class="card-title">
+            <h2>{{ vehicle.year }} {{ carName(vehicle) }}</h2>
+            <span class="badge" [class.badge-used]="vehicle.condition === 'used'">
+              {{ vehicle.condition }}
+            </span>
+          </div>
+          <p class="trim">{{ vehicle.trim }}</p>
+          <ul class="meta">
+            <li>{{ vehicle.paint }}</li>
+            <li>{{ vehicle.wheels }}" wheels</li>
+            <li>{{ vehicle.mileage | number }} mi</li>
+            <li>{{ vehicle.location }}</li>
+          </ul>
+          <div class="card-footer">
+            <strong>{{ vehicle.price | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+            <a
+              class="btn btn-primary"
+              routerLink="/test-drive"
+              [queryParams]="{ model: vehicle.carId, vin: vehicle.vin }"
+            >
+              Reserve a Test Drive
+            </a>
+          </div>
+        </div>
+      </article>
+    } @empty {
+      <div class="empty">
+        <p>No vehicles match your filters.</p>
+        <button type="button" class="btn btn-secondary" (click)="reset()">Reset filters</button>
+      </div>
+    }
+  </section>
+</div>

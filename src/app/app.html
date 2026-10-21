@@ -1,0 +1,48 @@
+<header class="header">
+  <div class="header-inner">
+    <a routerLink="/" class="logo" (click)="closeMenu()">VOLT<span>MOTORS</span></a>
+
+    <nav class="nav-models" aria-label="Models">
+      @for (car of cars; track car.id) {
+        <a [routerLink]="['/models', car.id]" routerLinkActive="active">{{ car.name }}</a>
+      }
+    </nav>
+
+    <nav class="nav-actions" aria-label="Dealership">
+      <a routerLink="/inventory" routerLinkActive="active">Inventory</a>
+      <a routerLink="/test-drive" routerLinkActive="active">Test Drive</a>
+      <button
+        type="button"
+        class="menu-toggle"
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="mobile-menu"
+        (click)="toggleMenu()"
+      >
+        Menu
+      </button>
+    </nav>
+  </div>
+
+  @if (menuOpen()) {
+    <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile">
+      @for (car of cars; track car.id) {
+        <a [routerLink]="['/models', car.id]" (click)="closeMenu()">{{ car.name }}</a>
+      }
+      <a routerLink="/inventory" (click)="closeMenu()">Inventory</a>
+      <a routerLink="/test-drive" (click)="closeMenu()">Test Drive</a>
+    </nav>
+  }
+</header>
+
+<main>
+  <router-outlet />
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span>Volt Motors &copy; {{ year }}</span>
+    <a routerLink="/inventory">Inventory</a>
+    <a routerLink="/test-drive">Schedule a Test Drive</a>
+    <span>Independent dealership, not affiliated with Tesla, Inc.</span>
+  </div>
+</footer>
