@@ -1,11 +1,21 @@
 @if (car(); as car) {
   <div class="configurator">
     <div class="stage">
-      <app-car-illustration
-        [body]="car.body"
-        [color]="paint()?.hex ?? '#ccc'"
-        [label]="car.name + ' in ' + paint()?.name"
-      />
+      @if (shot(); as shot) {
+        <figure class="shot">
+          @for (p of [shot.photo]; track p.src) {
+            <img [src]="p.src" [alt]="p.alt" [style.object-position]="p.focus" width="1400" height="933" />
+          }
+          <figcaption class="shot-note">
+            @if (shot.exact) {
+              <span class="dot" [style.background]="paint()?.hex"></span> {{ paint()?.name }}
+            } @else {
+              <span class="dot" [style.background]="paint()?.hex"></span>
+              {{ paint()?.name }} &middot; <span class="muted">photo shows {{ shot.paint }}</span>
+            }
+          </figcaption>
+        </figure>
+      }
       <div class="specs">
         <div>
           <strong>{{ trim()?.range }} mi</strong>

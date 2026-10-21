@@ -1,7 +1,7 @@
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CarIllustration } from '../../components/car-illustration/car-illustration';
+import { carPhoto } from '../../data/car-photos';
 import { CARS, findCar } from '../../data/cars';
 import { INVENTORY, InventoryVehicle } from '../../data/inventory';
 
@@ -9,7 +9,7 @@ type SortKey = 'price-asc' | 'price-desc' | 'mileage' | 'year';
 
 @Component({
   selector: 'app-inventory',
-  imports: [RouterLink, CurrencyPipe, DecimalPipe, CarIllustration],
+  imports: [RouterLink, CurrencyPipe, DecimalPipe],
   templateUrl: './inventory.html',
   styleUrl: './inventory.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,12 +38,9 @@ export class Inventory {
     return findCar(vehicle.carId)?.name ?? vehicle.carId;
   }
 
-  protected carBody(vehicle: InventoryVehicle) {
-    return findCar(vehicle.carId)?.body ?? 'sedan';
-  }
-
-  protected paintHex(vehicle: InventoryVehicle): string {
-    return findCar(vehicle.carId)?.paints.find((p) => p.name === vehicle.paint)?.hex ?? '#ccc';
+  /** Real photo of the listing's model in its paint colour. */
+  protected photoFor(vehicle: InventoryVehicle) {
+    return carPhoto(vehicle.carId, vehicle.paint)?.photo;
   }
 
   protected reset(): void {
